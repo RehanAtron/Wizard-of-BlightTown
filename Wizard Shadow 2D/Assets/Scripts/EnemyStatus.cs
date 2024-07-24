@@ -100,7 +100,7 @@ public class EnemyStatus : MonoBehaviour
 
     IEnumerator ColorChange()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.5f,0,0);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1);
         yield return new WaitForSeconds(0.05f);
         gameObject.GetComponent<SpriteRenderer>().color = Color.black;
     }

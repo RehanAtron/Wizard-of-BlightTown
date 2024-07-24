@@ -5,55 +5,62 @@ using UnityEngine;
 public class RoomManager : MonoBehaviour
 {
     [SerializeField] private RoomGenerator roomGenerator;
-    private Dictionary<GameObject[],List<GameObject>> enemyRoomConnection = new Dictionary<GameObject[], List<GameObject>>();
-    public int roomnumber;
+    private Dictionary<int, List<GameObject>> roomEnemies = new Dictionary<int, List<GameObject>>();
+    private Dictionary<int, List<GameObject>> roomDoors = new Dictionary<int, List<GameObject>>();
+
     void Start()
     {
         roomGenerator = GetComponent<RoomGenerator>();
+        RoomMaker();
     }
 
-    // Update is called once per frame
     void Update()
     {
         RoomLock();
     }
+
     public void RoomMaker()
     {
         for (int i = 0; i < roomGenerator.totalRooms - 2; i++)
         {
-            List<GameObject> DoorsPerRoom = new List<GameObject>
+            List<GameObject> doorsPerRoom = new List<GameObject>
             {
                 roomGenerator.previousDoors[i].door,
-                roomGenerator.nextDoors[i+1].door
+                roomGenerator.nextDoors[i + 1].door
             };
-            enemyRoomConnection.Add(roomGenerator.enemies[i],DoorsPerRoom);
-        }
-    }
-    void RoomLock()
-    {
-        foreach (var entry in enemyRoomConnection)
-        {
-            GameObject[] enemiesInRoom = entry.Key;
-            List<GameObject> doorsInRoom = entry.Value;
 
-            bool enemiesExist = false;
-
-            // Check if any enemy in the room is still active
-            foreach (var enemy in enemiesInRoom)
+            // Initialize roomEnemies and roomDoors
+            if (!roomEnemies.ContainsKey(i))
             {
-                if (enemy != null)
-                {
-                    enemiesExist = true;
-                    break;
-                }
+                roomEnemies.Add(i, new List<GameObject>(roomGenerator.enemies[i]));
             }
 
-            // Set the trigger state of doors
+            if (!roomDoors.ContainsKey(i))
+            {
+                roomDoors.Add(i, doorsPerRoom);
+            }
+        }
+    }
+
+    void RoomLock()
+    {
+        foreach (var room in roomEnemies)
+        {
+            int roomId = room.Key;
+            List<GameObject> enemiesInRoom = room.Value;
+            List<GameObject> doorsInRoom = roomDoors[roomId];
+
+            bool enemiesExist = enemiesInRoom.Exists(enemy => enemy != null);
+
             foreach (var door in doorsInRoom)
             {
                 if (door.TryGetComponent<Collider2D>(out var collider))
                 {
-                    collider.isTrigger = enemiesExist ? false : true;
+                    collider.isTrigger = !enemiesExist;
+                    if (collider.isTrigger)
+                    {
+                        door.GetComponent<SpriteRenderer>().sprite = null;
+                    }
                 }
             }
         }

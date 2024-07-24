@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5307125276439930707}
   - component: {fileID: 2372520473172252977}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Spider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,3 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   player: {fileID: 0}
+  isSpider: 1
+  isDog: 0
+  isHuge: 0
+  isHuman: 0

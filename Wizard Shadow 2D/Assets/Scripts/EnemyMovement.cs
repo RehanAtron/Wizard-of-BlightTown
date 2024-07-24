@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
-    public GameObject player;
+    public GameObject player,tip1,tip2;
+    public bool isSpider, isDog, isHuge, isHuman, isStill;
     private Vector3 target;
     private bool following;
     private float startTime, journeyLength;
@@ -25,7 +27,7 @@ public class EnemyMovement : MonoBehaviour
             startTime = Time.time;
             journeyLength = Vector2.Distance(transform.position,player.transform.position);
         }
-        if (Vector2.Distance(transform.position,player.transform.position) < 2.5)
+        if (Vector2.Distance(transform.position,player.transform.position) < 4 && player.GetComponent<PlayerMovement>().teleportCooldown < 0.5)
         {
             following = true;
         }
@@ -33,12 +35,22 @@ public class EnemyMovement : MonoBehaviour
     public void Move()
     {
         // Move the object
-        if (target != transform.position)
+        if (isSpider)
         {
-            float distCovered = (Time.time - startTime) * moveSpeed;
-            float journeyFraction = distCovered / journeyLength;
-            transform.position = Vector2.Lerp(transform.position, target, LerpTime(journeyFraction));
+            if (target != transform.position)
+            {
+                float distCovered = (Time.time - startTime) * moveSpeed;
+                float journeyFraction = distCovered / journeyLength;
+                transform.position = Vector2.Lerp(transform.position, target, LerpTime(journeyFraction));
+            }
         }
+        if (isStill)
+        if (target != transform.position)
+            {
+                tip1.transform.position = Vector2.Lerp(tip1.transform.position, target, moveSpeed * Time.deltaTime);
+                tip2.transform.position = Vector2.Lerp(tip2.transform.position, target, moveSpeed * Time.deltaTime);
+            }
+
     }
 
     float LerpTime(float t)

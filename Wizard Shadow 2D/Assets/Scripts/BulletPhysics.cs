@@ -17,6 +17,10 @@ public class BulletPhysics : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             EnemyStatus enemy = other.GetComponent<EnemyStatus>();
+            if (enemy == null)
+            {
+                return;
+            }
             enemy.hit = true;
             enemy.health -= 1;
             
@@ -26,30 +30,23 @@ public class BulletPhysics : MonoBehaviour
             float freezeTimer = 0;
             int burnDamage = 0;
 
-            if (inventory.torches.Length > 0)
+            Torch firstTorch = inventory.torches[0];
+            if (firstTorch != null)
             {
-                Torch firstTorch = inventory.torches[0];
-                if (firstTorch != null)
-                {
-                    fireDamage = firstTorch.fireDamage;
-                    iceDamage = firstTorch.iceDamage;
-                    burnTimer += firstTorch.burnTimer;
-                    freezeTimer += firstTorch.freezeTimer;
-                    burnDamage += firstTorch.burnDamage;
-                }
+                fireDamage = firstTorch.fireDamage;
+                iceDamage = firstTorch.iceDamage;
+                burnTimer += firstTorch.burnTimer;
+                freezeTimer += firstTorch.freezeTimer;
+                burnDamage += firstTorch.burnDamage;
             }
-            
-            if (inventory.torches.Length > 1)
+            Torch secondTorch = inventory.torches[1];
+            if (secondTorch != null)
             {
-                Torch secondTorch = inventory.torches[1];
-                if (secondTorch != null)
-                {
-                    fireDamage = fireDamage || secondTorch.fireDamage;
-                    iceDamage = iceDamage || secondTorch.iceDamage;
-                    burnTimer += secondTorch.burnTimer;
-                    freezeTimer += secondTorch.freezeTimer;
-                    burnDamage += secondTorch.burnDamage;
-                }
+                fireDamage = fireDamage || secondTorch.fireDamage;
+                iceDamage = iceDamage || secondTorch.iceDamage;
+                burnTimer += secondTorch.burnTimer;
+                freezeTimer += secondTorch.freezeTimer;
+                burnDamage += secondTorch.burnDamage;
             }
 
             if (fireDamage)

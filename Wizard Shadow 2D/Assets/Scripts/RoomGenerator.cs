@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -18,7 +19,7 @@ public class RoomGenerator : MonoBehaviour
         Vector2Int.zero
     };
     [Space]
-    [SerializeField] private GameObject door,enemy;
+    [SerializeField] private GameObject door,spider,still;
     public Transform doorParent;
     public List<Door> previousDoors = new List<Door>();
     public List<Door> nextDoors = new List<Door>();
@@ -37,9 +38,21 @@ public class RoomGenerator : MonoBehaviour
         for (int i = 0; i < totalRooms; i++)
         {
             // adds room to be placed into the list
+            int stillsPerRoom;
             rooms.Add(roomPosition);
-            
-            GameObject[] enemiesPerRoom = new GameObject[Random.Range(1,5)];
+            int spidersPerRoom;
+            GameObject[] enemiesPerRoom;
+            if (width > 13)
+            {
+                spidersPerRoom = Random.Range(1, 5);
+                stillsPerRoom = Random.Range(1, 4);
+            }
+            else
+            {
+                spidersPerRoom = Random.Range(1, 3);
+                stillsPerRoom = 0;
+            }
+            enemiesPerRoom = new GameObject[spidersPerRoom + stillsPerRoom];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -54,6 +67,7 @@ public class RoomGenerator : MonoBehaviour
                 break;
             }
 
+            // Monster Spawn
             List<Vector2> vector2s = new List<Vector2>() {
                     Vector2.up,
                     Vector2.down,
@@ -67,7 +81,7 @@ public class RoomGenerator : MonoBehaviour
             System.Random random = new System.Random();
             if (i > 0)
             {
-                    for (int j = 0; j < enemiesPerRoom.Length; j++)
+                for (int j = 0; j < spidersPerRoom; j++)
                 {
                     Vector2 offset = vector2s[random.Next(vector2s.Count)];
                     Vector2 enemySpawnPosition = roomPosition + (offset * Random.Range(0,(width/2)-2));
@@ -78,8 +92,30 @@ public class RoomGenerator : MonoBehaviour
                         enemySpawnPosition = roomPosition + (offset * Random.Range(0,(width/2)-2));
                     }
                     
-                    GameObject specific = Instantiate(enemy, enemySpawnPosition, Quaternion.identity);
+                    GameObject specific = Instantiate(spider, enemySpawnPosition, Quaternion.identity);
                     enemiesPerRoom[j] = specific;
+                }
+
+                if (width > 13)
+                {
+                    HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
+                    Vector2 baseOffset = new Vector2((width - 2) / 2, 3);
+                    
+                    for (int k = 0; k < stillsPerRoom; k++)
+                    {
+                        Vector3 enemySpawnPosition; Vector2 offset;
+                        do {
+                            int r = Random.Range(4,8);
+                            offset = baseOffset * vector2s[r];
+                            enemySpawnPosition = roomPosition + offset;
+                        } while (occupiedPositions.Contains(enemySpawnPosition));
+
+                        Quaternion rotation = offset.x > 0 ? Quaternion.Euler(0, 0, 90) : Quaternion.Euler(0, 0, 270);
+                        GameObject specific = Instantiate(still, enemySpawnPosition, rotation);
+                        enemiesPerRoom[spidersPerRoom + k] = specific;
+
+                        occupiedPositions.Add(enemySpawnPosition);
+                    }
                 }
                 enemies.Add(enemiesPerRoom);
             }
@@ -105,7 +141,7 @@ public class RoomGenerator : MonoBehaviour
 
             // next room details
             roomPosition = newRoomPosition(room);
-            width = Random.Range(6,10) * 2 + 1;
+            width = Random.Range(4,8) * 2 + 1;
             height = width;
             // places previous door
             if (room < 0)

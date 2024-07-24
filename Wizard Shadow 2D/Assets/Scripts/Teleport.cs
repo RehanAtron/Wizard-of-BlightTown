@@ -5,7 +5,6 @@ using UnityEngine;
 public class Teleport : MonoBehaviour
 {
     private RoomGenerator roomGenerator;
-    private RoomManager roomManager;
     public int index;
     bool movesToNext;
     public bool DoorsContains (Vector3 position, List<Door> doors) {
@@ -20,7 +19,6 @@ public class Teleport : MonoBehaviour
     void Start()
     {
         roomGenerator = FindObjectOfType<RoomGenerator>();
-        roomManager = FindObjectOfType<RoomManager>();
         FindIndex(transform.position);
     }
     void Update() 
@@ -34,8 +32,7 @@ public class Teleport : MonoBehaviour
         {
             PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
             if (playerMovement.teleportCooldown <= 0)
-            {  
-                roomManager.roomnumber = index;
+            {
                 playerMovement.teleportCooldown = 1;
                 StartCoroutine(playerTeleport(other));
             }
