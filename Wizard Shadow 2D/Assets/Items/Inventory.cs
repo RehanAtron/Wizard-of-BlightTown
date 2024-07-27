@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory Instance;
     public Torch[] torches;
     public float fireRate;
     public int bulletNumber;
+    public int level;
+        void Awake() 
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     void Update() 
     {
         if (torches[0] != null || torches[1] != null)

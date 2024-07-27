@@ -101,6 +101,10 @@ MonoBehaviour:
   torches:
   - {fileID: 11400000, guid: 70ac44b5ff042d1418502cb5fa9793f1, type: 2}
   - {fileID: 11400000, guid: 395bdb98ee323324782c3273e4a152e7, type: 2}
+  - {fileID: 11400000, guid: 706a7e4677c423346927bffabd0d8043, type: 2}
+  - {fileID: 11400000, guid: 7266f16f93b6fcb47a4a4bceea1fd091, type: 2}
+  - {fileID: 11400000, guid: f360f5ccd74147647b5602f16e837faa, type: 2}
+  - {fileID: 11400000, guid: 869d6dd598095ce4283159b2b0a113d3, type: 2}
   inventory: {fileID: 0}
   descriptionPanel: {fileID: 7435394979410488209, guid: 994351310598fbd48ba1ec743246ca58, type: 3}
 --- !u!58 &-2842397117621152377

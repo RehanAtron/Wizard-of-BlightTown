@@ -1075,6 +1075,9 @@ MonoBehaviour:
   door: {fileID: 5270374538998228876, guid: b861ab951308465478348a2825a28584, type: 3}
   spider: {fileID: 704408548216094724, guid: 61fd2488a85ec5646bd6ee13e5eb2cdd, type: 3}
   still: {fileID: 5486547291148572036, guid: aecadf72f24617441aa65114b2fda299, type: 3}
+  bigSpider: {fileID: 7667931470178029705, guid: 8bf99245fcc5141458a5a261b55530b1, type: 3}
+  levelEnd: {fileID: 4127416427689789919, guid: d04d4904cd659914f95ec0642dce1af9, type: 3}
+  Boss: {fileID: 8035116674809671328, guid: ebfe74c140da2c349894be15e23ac285, type: 3}
   doorParent: {fileID: 767076633}
   previousDoors: []
   nextDoors: []
@@ -1198,6 +1201,56 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8407469}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1987915118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1987915120}
+  - component: {fileID: 1987915119}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1987915119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987915118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05f8632f54aa1a4283ac52aa4882253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  torches:
+  - {fileID: 0}
+  - {fileID: 0}
+  fireRate: 0
+  bulletNumber: 0
+  level: 4
+--- !u!4 &1987915120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987915118}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2009648500
@@ -1577,6 +1630,7 @@ SceneRoots:
   - {fileID: 1136011527622628572}
   - {fileID: 1807305167}
   - {fileID: 9045802993892629038}
+  - {fileID: 1987915120}
   - {fileID: 2009648501}
   - {fileID: 352519394}
   - {fileID: 803974064}

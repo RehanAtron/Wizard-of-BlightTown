@@ -3,7 +3,17 @@ guid: 068a4877dfa463143979c7fc3b6496a0
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tilemap: {instanceID: 0}
+  - tile: {instanceID: 0}
+  - groundTile: {instanceID: 0}
+  - door: {instanceID: 0}
+  - spider: {fileID: 704408548216094724, guid: 61fd2488a85ec5646bd6ee13e5eb2cdd, type: 3}
+  - still: {fileID: 5486547291148572036, guid: aecadf72f24617441aa65114b2fda299, type: 3}
+  - bigSpider: {fileID: 7667931470178029705, guid: 8bf99245fcc5141458a5a261b55530b1, type: 3}
+  - levelEnd: {instanceID: 0}
+  - Boss: {instanceID: 0}
+  - doorParent: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

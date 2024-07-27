@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 target;
     private bool following;
     private float startTime, journeyLength;
+    public float  range;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -27,7 +28,7 @@ public class EnemyMovement : MonoBehaviour
             startTime = Time.time;
             journeyLength = Vector2.Distance(transform.position,player.transform.position);
         }
-        if (Vector2.Distance(transform.position,player.transform.position) < 4 && player.GetComponent<PlayerMovement>().teleportCooldown < 0.5)
+        if (Vector2.Distance(transform.position,player.transform.position) < range && player.GetComponent<PlayerMovement>().teleportCooldown < 0.5)
         {
             following = true;
         }

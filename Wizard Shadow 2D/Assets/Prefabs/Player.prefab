@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6975671598112474497}
   - component: {fileID: 4266761283943407576}
   - component: {fileID: 1913504473545426547}
-  - component: {fileID: 4008830000464545973}
   - component: {fileID: 6959940844314103885}
   - component: {fileID: 4239159203991807115}
   - component: {fileID: 8049807746966815396}
@@ -110,23 +109,6 @@ MonoBehaviour:
   knockbackForce: 10
   flipSpeed: 0.5
   teleportCooldown: 0
---- !u!114 &4008830000464545973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4216313060968374575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c05f8632f54aa1a4283ac52aa4882253, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  torches:
-  - {fileID: 11400000, guid: 70ac44b5ff042d1418502cb5fa9793f1, type: 2}
-  - {fileID: 0}
-  fireRate: 0
-  bulletNumber: 0
 --- !u!114 &6959940844314103885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,8 +125,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.751211, b: 0.35900003, a: 1}
+  m_Intensity: 0.27
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -165,8 +147,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 1
-  m_PointLightOuterRadius: 4
+  m_PointLightInnerRadius: 3
+  m_PointLightOuterRadius: 6
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

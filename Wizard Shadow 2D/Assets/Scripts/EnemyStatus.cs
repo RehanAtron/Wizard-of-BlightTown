@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyStatus : MonoBehaviour
 {
     [SerializeField] private GameObject itemGenerator;
-    private EnemyMovement enemyMovement;
+    public EnemyMovement enemyMovement;
     public bool hit;
     public int health, burnDamage;
     private bool frozen, burning;
@@ -31,7 +31,10 @@ public class EnemyStatus : MonoBehaviour
         }
         else
         {
-            enemyMovement.Move();
+            if (enemyMovement != null)
+            {
+                enemyMovement.Move();
+            }
             if (freezeCooldown > 0)
             {
                 freezeCooldown -= Time.deltaTime;
