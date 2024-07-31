@@ -99,12 +99,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torches:
+  - {fileID: 11400000, guid: c815652b71224f8489eccdaafa64cb21, type: 2}
+  - {fileID: 11400000, guid: 706a7e4677c423346927bffabd0d8043, type: 2}
   - {fileID: 11400000, guid: 70ac44b5ff042d1418502cb5fa9793f1, type: 2}
   - {fileID: 11400000, guid: 395bdb98ee323324782c3273e4a152e7, type: 2}
-  - {fileID: 11400000, guid: 706a7e4677c423346927bffabd0d8043, type: 2}
-  - {fileID: 11400000, guid: 7266f16f93b6fcb47a4a4bceea1fd091, type: 2}
-  - {fileID: 11400000, guid: f360f5ccd74147647b5602f16e837faa, type: 2}
   - {fileID: 11400000, guid: 869d6dd598095ce4283159b2b0a113d3, type: 2}
+  - {fileID: 11400000, guid: 7266f16f93b6fcb47a4a4bceea1fd091, type: 2}
+  - {fileID: 11400000, guid: da3602cbabe2d684e938ba709d29373b, type: 2}
+  - {fileID: 11400000, guid: dbad2e64dd564c44c9c9551f190a2b4a, type: 2}
+  - {fileID: 11400000, guid: 1d691a62551aec648b199fecf4fb60d4, type: 2}
+  - {fileID: 11400000, guid: 86defd5d8a66a6944b7bb7ce59a20b94, type: 2}
+  - {fileID: 11400000, guid: 4a1ba8141446051499c20f921cb14ab5, type: 2}
+  - {fileID: 11400000, guid: 76290ffcc4d21ff4a89ac4a0f36553a9, type: 2}
+  - {fileID: 11400000, guid: ff26c904a50eca94fb558a7077aba4ee, type: 2}
+  - {fileID: 11400000, guid: 7fd7579e853b3d34c86ce1ac336ccf05, type: 2}
+  - {fileID: 11400000, guid: 78790a879b6b57a4ea55d6f05166c930, type: 2}
+  - {fileID: 11400000, guid: ab7e45e6885fe71479349b1d1211d89b, type: 2}
+  - {fileID: 11400000, guid: f1b55e4844b73e44a8fce651af8aa051, type: 2}
+  - {fileID: 11400000, guid: f360f5ccd74147647b5602f16e837faa, type: 2}
   inventory: {fileID: 0}
   descriptionPanel: {fileID: 7435394979410488209, guid: 994351310598fbd48ba1ec743246ca58, type: 3}
 --- !u!58 &-2842397117621152377

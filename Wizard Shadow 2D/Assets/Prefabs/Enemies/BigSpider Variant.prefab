@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigSpider Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2372520473172252977, guid: 61fd2488a85ec5646bd6ee13e5eb2cdd, type: 3}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4600401814647075472, guid: 61fd2488a85ec5646bd6ee13e5eb2cdd, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -66,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5307125276439930707, guid: 61fd2488a85ec5646bd6ee13e5eb2cdd, type: 3}
       propertyPath: health
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12fd85b3dc4b8734abbe41513d5e7a9d, type: 3}
   m_Name: Triple
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  torchName: Triple
+  sprite: {fileID: 21300000, guid: 7dcfc40172c4a704189256e65b97f1b5, type: 3}
   bulletNumber: 3
   fireRate: 0
   burnDamage: 0

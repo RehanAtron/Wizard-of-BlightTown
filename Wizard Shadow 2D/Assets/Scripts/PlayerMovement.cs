@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         kbCounter -= Time.unscaledDeltaTime;
         teleportCooldown -= Time.deltaTime;
-        if (kbCounter <= 0)
+        if (kbCounter <= 0 && !Inventory.Instance.dead)
         {
             Time.timeScale = 1;
             if (hitCooldown > 0)
@@ -92,8 +92,16 @@ public class PlayerMovement : MonoBehaviour
             Time.timeScale = 0;
             kbCounter = 0.5f;
             animator.ChangeAnimation(playerHit);
+            Inventory.Instance.health -= 1;
             transform.localScale = new Vector3(1,1,1);
             hitCooldown = 1;
+        }
+        if (other.gameObject.GetComponent<EnemyMovement>() != null)
+        {
+            if (other.collider.CompareTag("Enemy") && other.gameObject.GetComponent<EnemyMovement>().isHuman && other.gameObject.GetComponent<EnemyMovement>().isHit)
+            {
+                Inventory.Instance.health = 0;
+            }
         }
         if (other.collider.CompareTag("Door") && teleportCooldown <= 0)
         {

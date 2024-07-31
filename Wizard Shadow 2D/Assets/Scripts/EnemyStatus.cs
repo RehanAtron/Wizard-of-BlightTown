@@ -63,7 +63,7 @@ public class EnemyStatus : MonoBehaviour
     public void Die()
     {
         int random = Random.Range(0,101);
-        if (random < 90)
+        if (random > 95)
         {
             Instantiate(itemGenerator, transform.position,Quaternion.identity);
         }
@@ -75,6 +75,10 @@ public class EnemyStatus : MonoBehaviour
         if (hit)
         {
             StartCoroutine(ColorChange());
+            if (enemyMovement != null)
+            {
+                enemyMovement.isHit = true;
+            }
             hit = false;
         }
     }

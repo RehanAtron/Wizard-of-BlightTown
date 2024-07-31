@@ -11,6 +11,9 @@ public class LevelSelector : MonoBehaviour
         if (isInTrigger && Input.GetKey(KeyCode.E))
         {
             Inventory.Instance.level += 1;
+            if (Inventory.Instance.health < 4)
+            {Inventory.Instance.health += 2;}
+            else{Inventory.Instance.health += 1;}
             SceneManager.LoadScene(Inventory.Instance.level);
         }
     }

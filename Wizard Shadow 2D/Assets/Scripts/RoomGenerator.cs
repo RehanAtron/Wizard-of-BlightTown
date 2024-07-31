@@ -1,15 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 public class RoomGenerator : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap tilemap, accesoryTilemap;
     [SerializeField] private RuleTile tile;
-    [SerializeField] private Tile groundTile;
+    [SerializeField] private Tile[] accesories;
     [Space]
     private RoomManager roomManager;
     public int totalRooms, distanceBetween;
@@ -19,7 +17,7 @@ public class RoomGenerator : MonoBehaviour
         Vector2Int.zero
     };
     [Space]
-    [SerializeField] private GameObject door,spider,still, bigSpider;
+    [SerializeField] private GameObject door,spider,still, bigSpider, huge, human;
     [SerializeField] private GameObject levelEnd;
     [SerializeField] private GameObject Boss;
     public Transform doorParent;
@@ -28,12 +26,25 @@ public class RoomGenerator : MonoBehaviour
     Dictionary<Vector2, int> Doors =  new Dictionary<Vector2, int>();
     [Space]
     public List<GameObject[]> enemies = new List<GameObject[]>();
+    GameObject bossClone,player;
     void Start()
     {
         roomManager = GetComponent<RoomManager>();
-        width = 11;
-        height = 11;
+        player = GameObject.FindWithTag("Player");
+        width = 9;
+        height = 9;
         RoomGeneration();
+    }
+    void Update() 
+    {
+        if (bossClone != null)
+        {
+        if (Vector2.Distance(bossClone.transform.position,player.transform.position) < 5)
+        {
+            player.GetComponent<Light2D>().pointLightInnerRadius = 10;
+            player.GetComponent<Light2D>().pointLightOuterRadius = 10;
+            bossClone.SetActive(true);
+        }}    
     }
     void RoomGeneration()
     {
@@ -42,22 +53,28 @@ public class RoomGenerator : MonoBehaviour
             // adds room to be placed into the list
             rooms.Add(roomPosition);
             
+            // room generation
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     tilemap.SetTile(new Vector3Int(roomPosition.x - width/2 + x, roomPosition.y - height/2 + y, 0),tile);
+                    int randomz = Random.Range(0,33);
+                    if (x > 2 && y >= 2 && x < width-3 && y < height-3 && randomz == 10 && i > 0 && i < totalRooms-1)
+                    {
+                        accesoryTilemap.SetTile(new Vector3Int(roomPosition.x - width/2 + x, roomPosition.y - height/2 + y, 0),accesories[Random.Range(0,3)]); 
+                    }
                 }
             }
             
 
             if (i == totalRooms-1)
             {
-                if (Inventory.Instance.level == 4)
+                if (Inventory.Instance.level == 6)
                 {
                     GameObject[] enemiesPerRoom = new GameObject[1];
-                    GameObject specific = Instantiate(Boss, roomPosition + Vector2.zero, Quaternion.identity);
-                    enemiesPerRoom[0] = specific;
+                    bossClone = Instantiate(Boss, roomPosition + Vector2.zero, Quaternion.identity);
+                    enemiesPerRoom[0] = bossClone;
                     enemies.Add(enemiesPerRoom);
                 }
                 else{
@@ -80,33 +97,51 @@ public class RoomGenerator : MonoBehaviour
             
             if (i > 0)
             {
-                int stillsPerRoom;
-                int spidersPerRoom;
-                int bigSpiderperRoom;
+                int stillsPerRoom = 0;
+                int spidersPerRoom = 0;
+                int bigSpiderperRoom = 0;
+                int hugePerRoom = 0;
+                int humanPerRoom = 0;
                 GameObject[] enemiesPerRoom;
-                if (width > 13)
+                int randomS = Random.Range(0,2);
+                if (width > 13 || height > 13)
                 {
-                    spidersPerRoom = Random.Range(1, 5);
+                    spidersPerRoom = Random.Range(1, 4);
                     stillsPerRoom = Random.Range(1, 4);
-                    bigSpiderperRoom = 1;
+                    if (randomS == 0 && Inventory.Instance.level > 2)
+                    {
+                        hugePerRoom = 1;
+                    }
+                    else if (randomS == 1)
+                    {
+                        bigSpiderperRoom = 1;
+                    }
+                    if (Inventory.Instance.level > 4)
+                    {
+                        humanPerRoom = Random.Range(0,3);
+                    }
                 }
                 else
                 {
                     spidersPerRoom = Random.Range(1, 3);
-                    bigSpiderperRoom = Random.Range(0,2);
+                    if (randomS == 1)
+                    {
+                        bigSpiderperRoom = Random.Range(0,2);
+                        spidersPerRoom = 1;
+                    }
                     stillsPerRoom = 0;
+                    hugePerRoom = 0;
                 }
-                enemiesPerRoom = new GameObject[spidersPerRoom + stillsPerRoom + bigSpiderperRoom];
+                enemiesPerRoom = new GameObject[spidersPerRoom + stillsPerRoom + bigSpiderperRoom + hugePerRoom];
                 for (int j = 0; j < spidersPerRoom; j++)
                 {
-                    Vector2 offset = vector2s[random.Next(vector2s.Count)];
-                    Vector2 enemySpawnPosition = roomPosition + (offset * Random.Range(2,(width/2)-2));
+                    Vector2 offset;
+                    Vector2 enemySpawnPosition;
 
-                    while (Vector2.Distance(enemySpawnPosition, previousDoors[previousDoors.Count-1].position) < 5)
-                    {
+                    do {
                         offset = vector2s[random.Next(vector2s.Count)];
                         enemySpawnPosition = roomPosition + (offset * Random.Range(0,(width/2)-2));
-                    }
+                    } while (Vector2.Distance(enemySpawnPosition, previousDoors[previousDoors.Count-1].position) < 5 && Mathf.Abs(enemySpawnPosition.x) < width/2 && Mathf.Abs(enemySpawnPosition.y) < height/2 );
                     
                     GameObject specific = Instantiate(spider, enemySpawnPosition, Quaternion.identity);
                     enemiesPerRoom[j] = specific;
@@ -116,7 +151,12 @@ public class RoomGenerator : MonoBehaviour
                     GameObject specific = Instantiate(bigSpider,roomPosition + Vector2.zero, Quaternion.identity);
                     enemiesPerRoom[spidersPerRoom] = specific;
                 }
-                if (width > 13)
+                if (hugePerRoom > 0)
+                {
+                    GameObject specific = Instantiate(huge,roomPosition + Vector2.zero, Quaternion.identity);
+                    enemiesPerRoom[spidersPerRoom] = specific;
+                }
+                if (width > 13 || height > 13)
                 {
                     HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
                     Vector2 baseOffset = new Vector2((width - 2) / 2, 3);
@@ -137,6 +177,24 @@ public class RoomGenerator : MonoBehaviour
                         occupiedPositions.Add(enemySpawnPosition);
                     }
                 }
+                if (humanPerRoom > 0)
+                {
+                    HashSet<Vector3> occupiedPositions = new HashSet<Vector3>();
+                    Vector3 enemySpawnPosition; Vector2 offset;
+                    Vector2 baseOffset = new Vector2(Mathf.Sqrt((width * width)+(width * width))/4,Mathf.Sqrt((width * width)+(width * width))/4);
+                    for (int k = 0; k < humanPerRoom; k++)
+                    {
+                        do {
+                            int r = Random.Range(4,8);
+                            offset = baseOffset * vector2s[r];
+                            enemySpawnPosition = roomPosition + offset;
+                        } while (occupiedPositions.Contains(enemySpawnPosition));
+
+                        Instantiate(human, enemySpawnPosition, Quaternion.identity);
+
+                        occupiedPositions.Add(enemySpawnPosition);
+                    }
+                }
                 enemies.Add(enemiesPerRoom);
             }
             
@@ -147,45 +205,28 @@ public class RoomGenerator : MonoBehaviour
             }
             
             // places next door
-            if (room < 0)
-            {
-                GameObject thisDoor = Instantiate(door, doorPosition(room,-width,-height), Quaternion.identity, doorParent);
-                nextDoors.Add(new Door(doorPosition(room,-width,-height), thisDoor,room));
-            }
-            else
-            {
-                GameObject thisDoor = Instantiate(door, doorPosition(room,-width,-height), Quaternion.Euler(0,0,90), doorParent);
-                nextDoors.Add(new Door(doorPosition(room,-width,-height), thisDoor,room));
-            }
+            GameObject thisDoor = Instantiate(door, doorPosition(room,-width,-height), doorRotation(room), doorParent);
+            nextDoors.Add(new Door(doorPosition(room,-width,-height), thisDoor,room));
             Doors.Add(doorPosition(room,-width,-height),room);
 
             // next room details
             roomPosition = newRoomPosition(room);
-            if (Inventory.Instance.level == 4 && i == totalRooms-2)
+            if (Inventory.Instance.level == 6 && i == totalRooms-2)
             {
                 width = 21;
                 height = 21;
             }
             else
             {
-                width = Random.Range(4,8) * 2 + 1;
-                height = width;
+                width = Random.Range(5,10) * 2 + 1;
+                height = Random.Range(5,10) * 2 + 1;
             }
             // places previous door
-            if (room < 0)
-            {
-                GameObject thisDoor = Instantiate(door, doorPosition(room,width,height), Quaternion.identity, doorParent);
-                previousDoors.Add(new Door(doorPosition(room,width,height),thisDoor,room));
-            }
-            else
-            {
-                GameObject thisDoor = Instantiate(door, doorPosition(room,width,height), Quaternion.Euler(0,0,90), doorParent);
-                previousDoors.Add(new Door(doorPosition(room,width,height),thisDoor,room));
-            }
+            GameObject thatDoor = Instantiate(door, doorPosition(room,width,height), doorCOPYRotation(room), doorParent);
+            previousDoors.Add(new Door(doorPosition(room,width,height),thatDoor,room));
             Doors.Add(doorPosition(room,width,height),room);
         }
         DeleteDoorOverlap(Doors);
-        Debug.Log("Rooms Generated");
         roomManager.RoomMaker();
     }
     
@@ -211,6 +252,25 @@ public class RoomGenerator : MonoBehaviour
             <-2 => Vector2.zero 
         };
 
+    Quaternion doorRotation (int r) =>
+        r switch
+        {
+            -2 => Quaternion.Euler(0,0,0),
+            -1  => Quaternion.Euler(0,0,180),
+            0  => Quaternion.Euler(0,0,270),
+            1  => Quaternion.Euler(0,0,90),
+            _ => Quaternion.identity
+        };
+
+    Quaternion doorCOPYRotation (int r) =>
+        r switch
+        {
+            -1 => Quaternion.Euler(0,0,0),
+            -2  => Quaternion.Euler(0,0,180),
+            1  => Quaternion.Euler(0,0,270),
+            0  => Quaternion.Euler(0,0,90),
+            _ => Quaternion.identity
+        };
     void DeleteDoorOverlap(Dictionary<Vector2,int> doors)
     {
         foreach (KeyValuePair<Vector2,int> door in doors)

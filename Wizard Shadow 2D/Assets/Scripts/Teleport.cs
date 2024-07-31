@@ -16,6 +16,8 @@ public class Teleport : MonoBehaviour
 
         return false;
     }
+    bool canTeleport;
+    GameObject player;
     void Start()
     {
         roomGenerator = FindObjectOfType<RoomGenerator>();
@@ -23,7 +25,10 @@ public class Teleport : MonoBehaviour
     }
     void Update() 
     {
-        
+        if (canTeleport)
+        {
+            playerTeleport(player);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other) 
@@ -33,10 +38,19 @@ public class Teleport : MonoBehaviour
             PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
             if (playerMovement.teleportCooldown <= 0)
             {
+                canTeleport = true;
+                player = other.gameObject;
                 playerMovement.teleportCooldown = 1;
-                StartCoroutine(playerTeleport(other));
             }
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.CompareTag("Player"))
+        {
+            canTeleport = false;
+        }    
     }
 
     
@@ -57,9 +71,8 @@ public class Teleport : MonoBehaviour
     }
 }
 
-    IEnumerator playerTeleport(Collider2D other)
+    void playerTeleport(GameObject other)
     {
-        yield return null;
         if (other.CompareTag("Player") && movesToNext)
         {
             other.transform.position = roomGenerator.previousDoors[index].position + offset(roomGenerator.previousDoors[index].orientation);
@@ -68,7 +81,7 @@ public class Teleport : MonoBehaviour
         {
             other.transform.position = roomGenerator.nextDoors[index].position - offset(roomGenerator.nextDoors[index].orientation);
         }
-        yield return null;
+        canTeleport = false;
     }
 
     Vector3 offset (int r) =>

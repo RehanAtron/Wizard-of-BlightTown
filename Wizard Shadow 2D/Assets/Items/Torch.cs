@@ -7,8 +7,7 @@ public class Torch : ScriptableObject
 {
     public Sprite sprite;
     [Space]
-    public string torchName;
-    public int bulletNumber, fireRate, burnDamage;
+    public int bulletNumber, fireRate, burnDamage, damage;
     public bool fireDamage, iceDamage;
     public float burnTimer, freezeTimer;
 }

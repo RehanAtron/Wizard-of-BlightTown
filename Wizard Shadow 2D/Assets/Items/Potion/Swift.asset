@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12fd85b3dc4b8734abbe41513d5e7a9d, type: 3}
   m_Name: Swift
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  torchName: Swift
+  sprite: {fileID: 21300000, guid: 4cc4c47b4209bc244bb8a063cf1dcd98, type: 3}
   bulletNumber: 0
   fireRate: 25
   burnDamage: 0

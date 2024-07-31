@@ -5,11 +5,21 @@ using UnityEngine;
 
 public class BulletPhysics : MonoBehaviour
 {
-    public Inventory inventory;
-
+    public float timePassed;
     void Start() 
     {
-        inventory = FindObjectOfType<Inventory>();
+        
+    }
+    void Update() 
+    {
+        if (timePassed >= 0)
+        {
+            timePassed -= Time.deltaTime;
+        }
+        if (gameObject.activeInHierarchy && timePassed <= 0)
+        {
+            gameObject.SetActive(false);  
+        }    
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -22,7 +32,7 @@ public class BulletPhysics : MonoBehaviour
                 return;
             }
             enemy.hit = true;
-            enemy.health -= 1;
+            enemy.health -= 1 + Inventory.Instance.damage ;
             
             bool fireDamage = false;
             bool iceDamage = false;
@@ -30,7 +40,7 @@ public class BulletPhysics : MonoBehaviour
             float freezeTimer = 0;
             int burnDamage = 0;
 
-            Torch firstTorch = inventory.torches[0];
+            Torch firstTorch = Inventory.Instance.torches[0];
             if (firstTorch != null)
             {
                 fireDamage = firstTorch.fireDamage;
@@ -39,7 +49,7 @@ public class BulletPhysics : MonoBehaviour
                 freezeTimer += firstTorch.freezeTimer;
                 burnDamage += firstTorch.burnDamage;
             }
-            Torch secondTorch = inventory.torches[1];
+            Torch secondTorch = Inventory.Instance.torches[1];
             if (secondTorch != null)
             {
                 fireDamage = fireDamage || secondTorch.fireDamage;

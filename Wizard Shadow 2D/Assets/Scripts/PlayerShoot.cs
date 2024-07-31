@@ -9,11 +9,9 @@ public class PlayerShoot : MonoBehaviour
     public float OgfireRate, bulletSpeed, rotZ;
     [SerializeField] private float fireRate;
     private Vector3 mousePos;
-    private Inventory inventory;
     void Start()
     {
         fireRate = OgfireRate;
-        inventory = FindObjectOfType<Inventory>();
     }
 
     // Update is called once per frame
@@ -45,7 +43,7 @@ public class PlayerShoot : MonoBehaviour
         fireRate -= Time.deltaTime;
         if (Input.GetMouseButton(0) && fireRate <= 0)
         {
-            int totalBullets = 1 + inventory.bulletNumber;
+            int totalBullets = 1 + Inventory.Instance.bulletNumber;
             GameObject[] bullets = new GameObject[totalBullets];
             float offsetIncrement = 0.1f;
             List<int> offsets = GenerateOffsets(totalBullets);
@@ -54,6 +52,7 @@ public class PlayerShoot : MonoBehaviour
             {
                 GameObject bullet = ObjectPool.SharedInstance.GetPooledObject();
                 bullet.SetActive(true);
+                bullet.GetComponent<BulletPhysics>().timePassed = 0.5f;
                 if (bullet != null) 
                 {
                     float offset = offsets[i] * offsetIncrement;
@@ -87,7 +86,7 @@ public class PlayerShoot : MonoBehaviour
     }
     void FireRateCalculation()
     {
-        fireRate = OgfireRate * (1 - inventory.fireRate/100);
+        fireRate = OgfireRate * (1 - Inventory.Instance.fireRate/100);
     }
 
     List<int> GenerateOffsets(int totalBullets)

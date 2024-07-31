@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -674233563536789095}
   - component: {fileID: 5307125276439930707}
   - component: {fileID: 2372520473172252977}
+  - component: {fileID: 2610495043279364583}
   m_Layer: 0
   m_Name: Spider
   m_TagString: Enemy
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 47b7cf9aeca68fc4299b22357f09becb, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -165,7 +166,7 @@ MonoBehaviour:
   itemGenerator: {fileID: 2238918547480911073, guid: abe8b083ba50ed942b4258669fb99bd6, type: 3}
   enemyMovement: {fileID: 0}
   hit: 0
-  health: 5
+  health: 3
   burnDamage: 0
   freezeTimer: 0
   burnTimer: 0
@@ -181,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89ab4393c63ba243aeccc0b921715d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 3
   player: {fileID: 0}
   tip1: {fileID: 0}
   tip2: {fileID: 0}
@@ -190,4 +191,26 @@ MonoBehaviour:
   isHuge: 0
   isHuman: 0
   isStill: 0
+  isHit: 0
   range: 4
+--- !u!95 &2610495043279364583
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704408548216094724}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56ce77ebdaec2cc4084126049fd65a7e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

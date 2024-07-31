@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     public GameObject player,tip1,tip2;
-    public bool isSpider, isDog, isHuge, isHuman, isStill;
+    public bool isSpider, isDog, isHuge, isHuman, isStill, isHit;
     private Vector3 target;
     private bool following;
     private float startTime, journeyLength;
@@ -36,22 +36,36 @@ public class EnemyMovement : MonoBehaviour
     public void Move()
     {
         // Move the object
-        if (isSpider)
+        if (target != transform.position)
         {
-            if (target != transform.position)
+            if (isSpider || isHuge)
             {
                 float distCovered = (Time.time - startTime) * moveSpeed;
                 float journeyFraction = distCovered / journeyLength;
                 transform.position = Vector2.Lerp(transform.position, target, LerpTime(journeyFraction));
+                if(isHuge)
+                {
+                    if (target.x > transform.position.x)
+                    {
+                        transform.localScale = new Vector3(-3.3f,3.3f,3.3f);
+                    }
+                    else 
+                    {
+                        transform.localScale = new Vector3(3.3f,3.3f,3.3f);
+                    }
+                }
             }
-        }
-        if (isStill)
-        if (target != transform.position)
+            if (isStill)
             {
                 tip1.transform.position = Vector2.Lerp(tip1.transform.position, target, moveSpeed * Time.deltaTime);
                 tip2.transform.position = Vector2.Lerp(tip2.transform.position, target, moveSpeed * Time.deltaTime);
             }
-
+            if (isHuman && isHit)
+            {
+                transform.position  = Vector2.Lerp(transform.position, target, moveSpeed * 4 * Time.deltaTime);
+                GetComponent<Collider2D>().isTrigger = false;;
+            }
+        }
     }
 
     float LerpTime(float t)
